@@ -1,8 +1,10 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { API_URL } from '../config'
+import { useNavigate } from 'react-router-dom'
 
 export default function Company(){
+    const navigate = useNavigate()
     const [name, setName] = useState('')
     const [location, setLocation] = useState('')
     const [description, setDescription] = useState('')
@@ -46,6 +48,9 @@ export default function Company(){
                 </div>
             ))}
 
+           <button onClick={()=>{
+            navigate('/jobs')
+           }}>For Jobs</button>
         </div>
     )
 }
