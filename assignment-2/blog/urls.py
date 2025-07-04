@@ -4,6 +4,7 @@ from . import views
 urlpatterns=[
     path('cors-preflight/', views.cors_preflight, name='cors_preflight'),
     path('test-auth/', views.test_auth, name='test_auth'),
+    path('test-public/', views.test_public, name='test_public'),
     path('register/',views.register,name='register'),
     path('login/',views.user_login,name='login'),
     path('user-info/',views.user_info,name='user_info'),

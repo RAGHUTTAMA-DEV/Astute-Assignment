@@ -28,6 +28,16 @@ def test_auth(request):
         'headers': dict(request.headers)
     })
 
+@require_http_methods(["GET"])
+@csrf_exempt
+def test_public(request):
+    """Test public endpoint that doesn't require authentication"""
+    return JsonResponse({
+        'message': 'This is a public endpoint',
+        'user_authenticated': request.user.is_authenticated,
+        'user': request.user.username if request.user.is_authenticated else None
+    })
+
 @csrf_exempt
 @require_http_methods(["POST"])
 def register(request):
@@ -113,6 +123,12 @@ def create_post(request):
 @require_http_methods(["GET"])
 @csrf_exempt
 def list_posts(request):
+    # Add debug logging
+    print(f"DEBUG: list_posts called. User authenticated: {request.user.is_authenticated}")
+    print(f"DEBUG: User: {request.user}")
+    print(f"DEBUG: Session key: {request.session.session_key}")
+    print(f"DEBUG: Cookies: {dict(request.COOKIES)}")
+    
     page = int(request.GET.get('page', 1))
     size = int(request.GET.get('size', 10))
     posts = Post.objects.select_related('author').order_by('-created_at')
@@ -129,12 +145,14 @@ def list_posts(request):
         }
         for post in page_obj
     ]
-    return JsonResponse({
+    response_data = {
         'posts': posts_list,
         'page': page_obj.number,
         'num_pages': paginator.num_pages,
         'total_posts': paginator.count,
-    })
+    }
+    print(f"DEBUG: Returning response: {response_data}")
+    return JsonResponse(response_data)
 
 @require_http_methods(["GET"])
 @LoginRequiredMiddleware.require_login

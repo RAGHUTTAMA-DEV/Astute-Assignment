@@ -9,20 +9,26 @@ export default function Post(){
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const navigate = useNavigate()
-    const { logout, user } = useAuth()
+    const { logout, user, isAuthenticated, loading: authLoading } = useAuth()
 
     useEffect(() => {
-        listPosts()
-    }, [])
+        // Only fetch posts after authentication is checked
+        if (!authLoading) {
+            listPosts()
+        }
+    }, [authLoading])
 
     const listPosts = async () => {
         try {
             setLoading(true)
+            console.log('Making request to list-posts with credentials:', axios.defaults.withCredentials)
             const response = await axios.get(`${API_URL}/list-posts/`)
+            console.log('List posts response:', response.data)
             setPosts(response.data.posts || [])
             setError(null)
         } catch (err) {
             console.error('Error fetching posts:', err)
+            console.error('Error response:', err.response?.data)
             setError('Failed to load posts')
         } finally {
             setLoading(false)
