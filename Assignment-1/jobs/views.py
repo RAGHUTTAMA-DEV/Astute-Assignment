@@ -94,3 +94,19 @@ def list_applicants(request, job_id):
         } for applicant in applicants
     ]
     return JsonResponse({'applicants': applicants_list}, safe=False)
+
+
+def list_companies(request):
+    try:
+        companies = Company.objects.all()
+        companies_list = [
+            {
+                'id': company.id,
+                'name': company.name,
+                'location': company.location,
+                'description': company.description,
+                'created_at': company.created_at
+            } for company in companies  ]
+        return JsonResponse({'companies': companies_list}, safe=False)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
