@@ -1,12 +1,18 @@
 import Searchbar from '../components/searchbar'
 import SideBar from '../components/sidebar'
 import Card from '../components/Card'
+import { useState } from 'react'
 import Button from '../components/button'
 import { Search } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import CaseDetails from '../components/CaseDetail'
+import InputCaseDetails from '../components/InputCaseDetails'
 
 export default function Main(){
     const navigate = useNavigate()
+    const [showCaseDetails, setShowCaseDetails] = useState(false);
+    const [showInputCaseDetails, setShowInputCaseDetails] = useState(false);
+    
     return(
         <div className="flex bg-gray-50 min-h-screen">
             <SideBar/>
@@ -125,9 +131,7 @@ export default function Main(){
                                     <option>All Status</option>
                                 </select>
                             </div>
-                            <button className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium" onClick={()=>{
-                                navigate('/casedetail')
-                            }}>
+                            <button className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium" onClick={() => setShowCaseDetails(true)}>
                                 + Create New Workspace
                             </button>
                         </div>
@@ -177,9 +181,8 @@ export default function Main(){
                             <button
                                 className="text-sm bg-transparent border-none p-0 m-0 cursor-pointer focus:outline-none"
                                 style={{ font: "inherit" }}
-                                type="button" onClick={()=>{
-                                    navigate('/inputcase')
-                                }}
+                                type="button" 
+                                onClick={() => setShowInputCaseDetails(true)}
                             >
                                 📄 Upgrade to add more litigation cases to the workspace
                             </button>
@@ -187,6 +190,16 @@ export default function Main(){
                     </div>
                 </div>
             </div>
+
+            {/* Modal Components */}
+            <CaseDetails 
+                isOpen={showCaseDetails} 
+                onClose={() => setShowCaseDetails(false)} 
+            />
+            <InputCaseDetails 
+                isOpen={showInputCaseDetails} 
+                onClose={() => setShowInputCaseDetails(false)} 
+            />
         </div>
     )
 }

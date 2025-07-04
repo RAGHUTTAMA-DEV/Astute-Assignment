@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { X, ChevronDown } from 'lucide-react';
 
-export default function InputCaseDetails() {
+export default function InputCaseDetails({ isOpen, onClose }) {
   const [formData, setFormData] = useState({
     caseType: 'Criminal',
     complainant: 'Seema Batra, Mukesh Kumar',
@@ -12,8 +12,6 @@ export default function InputCaseDetails() {
     dateOfIncident: '16.10.2022',
     representing: 'Neha Kumari'
   });
-
-  const [isOpen, setIsOpen] = useState(false);
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({
@@ -29,13 +27,18 @@ export default function InputCaseDetails() {
     }));
   };
 
+  if (!isOpen) return null;
+
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-transparent flex items-center justify-center p-4 z-50">
+      <div className="bg-white rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto border border-gray-200 shadow-xl">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b">
           <h2 className="text-xl font-semibold text-gray-800">Case Details</h2>
-          <button className="text-gray-500 hover:text-gray-700">
+          <button 
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700"
+          >
             <X size={20} />
           </button>
         </div>
@@ -171,7 +174,10 @@ export default function InputCaseDetails() {
 
         {/* Footer */}
         <div className="flex justify-end gap-3 p-6 border-t bg-gray-50">
-          <button className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors">
+          <button 
+            onClick={onClose}
+            className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors"
+          >
             Go Back
           </button>
           <button className="px-6 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-900 transition-colors">
