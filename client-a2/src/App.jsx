@@ -3,16 +3,54 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { AuthProvider } from './context/AuthContext'
+import ProtectedRoute from './components/ProtectedRoute'
 import Signup from './components/Signup'
 import Signin from './components/Signin'
+import Post from './components/post'
+import Details from './components/details'
+import Comment from './components/comment'
+import CreatePost from './components/CreatePost'
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<Signup/>}/>
-        <Route path='/signin' element={<Signin/>}/>
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/signin' element={<Signin/>}/>
+          <Route path='/signup' element={<Signup/>}/>
+          <Route path='/' element={
+            <ProtectedRoute>
+              <Post/>
+            </ProtectedRoute>
+          }/>
+          <Route path='/post' element={
+            <ProtectedRoute>
+              <Post/>
+            </ProtectedRoute>
+          }/>
+          <Route path='/post/:id' element={
+            <ProtectedRoute>
+              <Details/>
+            </ProtectedRoute>
+          }/>
+          <Route path='/post/:id/add-comment' element={
+            <ProtectedRoute>
+              <Comment/>
+            </ProtectedRoute>
+          }/>
+          <Route path='/comment/:id' element={
+            <ProtectedRoute>
+              <Comment/>
+            </ProtectedRoute>
+          }/>
+          <Route path='/create-post' element={
+            <ProtectedRoute>
+              <CreatePost/>
+            </ProtectedRoute>
+          }/>
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   )
 }
 

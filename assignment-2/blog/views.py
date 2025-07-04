@@ -52,6 +52,16 @@ def user_login(request):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
     
+@require_http_methods(["GET"])
+@LoginRequiredMiddleware.require_login
+@csrf_exempt
+def user_info(request):
+    return JsonResponse({
+        'username': request.user.username,
+        'email': request.user.email,
+        'id': request.user.id
+    })
+
 @require_http_methods(["POST"])
 @LoginRequiredMiddleware.require_login
 @csrf_exempt
