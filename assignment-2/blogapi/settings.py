@@ -161,6 +161,11 @@ CORS_ALLOW_METHODS = [
     'POST',
     'PUT',
 ]
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5173",
+    "http://localhost:3000",
+    "https://your-frontend-domain.netlify.app",  # Add your deployed frontend domain here
+]
 
 # Expose all headers
 CORS_EXPOSE_HEADERS = ['*']
