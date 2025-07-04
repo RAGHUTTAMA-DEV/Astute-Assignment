@@ -3,8 +3,10 @@ import SideBar from '../components/sidebar'
 import Card from '../components/Card'
 import Button from '../components/button'
 import { Search } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 export default function Main(){
+    const navigate = useNavigate()
     return(
         <div className="flex bg-gray-50 min-h-screen">
             <SideBar/>
@@ -123,7 +125,9 @@ export default function Main(){
                                     <option>All Status</option>
                                 </select>
                             </div>
-                            <button className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium">
+                            <button className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium" onClick={()=>{
+                                navigate('/casedetail')
+                            }}>
                                 + Create New Workspace
                             </button>
                         </div>
@@ -170,7 +174,15 @@ export default function Main(){
 
                         {/* Upgrade Banner */}
                         <div className="bg-slate-800 text-white p-4 rounded-lg mt-6 text-center">
-                            <span className="text-sm">📄 Upgrade to add more litigation cases to the workspace</span>
+                            <button
+                                className="text-sm bg-transparent border-none p-0 m-0 cursor-pointer focus:outline-none"
+                                style={{ font: "inherit" }}
+                                type="button" onClick={()=>{
+                                    navigate('/inputcase')
+                                }}
+                            >
+                                📄 Upgrade to add more litigation cases to the workspace
+                            </button>
                         </div>
                     </div>
                 </div>
