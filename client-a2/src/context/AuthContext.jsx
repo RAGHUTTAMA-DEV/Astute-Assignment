@@ -18,6 +18,8 @@ export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false)
     useEffect(() => {
         axios.defaults.withCredentials = true
+        // Set default headers
+        axios.defaults.headers.common['Content-Type'] = 'application/json'
     }, [])
 
     const login = async (username, password) => {
@@ -28,7 +30,7 @@ export const AuthProvider = ({ children }) => {
             })
             
             if (response.status === 200) {
-                setUser({ username })
+                setUser(response.data.user)
                 setIsAuthenticated(true)
                 return { success: true, message: 'Login successful' }
             }

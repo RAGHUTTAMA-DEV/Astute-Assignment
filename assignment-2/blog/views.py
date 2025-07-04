@@ -46,7 +46,16 @@ def user_login(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return JsonResponse({'message': 'Login successful.'})
+            # Set session expiry
+            request.session.set_expiry(1209600)  # 2 weeks
+            return JsonResponse({
+                'message': 'Login successful.',
+                'user': {
+                    'username': user.username,
+                    'email': user.email,
+                    'id': user.id
+                }
+            })
         else:
             return JsonResponse({'error': 'Invalid credentials.'}, status=401)
     except Exception as e:
