@@ -1,8 +1,33 @@
-import { Grid3X3, Users, CreditCard, Settings, MessageCircle, LogOut } from 'lucide-react'
+import { Grid3X3, Users, CreditCard, Settings, MessageCircle, LogOut, Menu, X } from 'lucide-react'
+import { useState } from 'react'
 
 export default function SideBar(){
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    
     return(
-        <div className="bg-slate-800 text-white" style={{ width: '230px', height: '1101px' }}>
+        <>
+            {/* Mobile Menu Button */}
+            <div className="lg:hidden fixed top-4 left-4 z-50">
+                <button
+                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                    className="bg-slate-800 text-white p-2 rounded-lg"
+                >
+                    {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                </button>
+            </div>
+
+            {/* Mobile Overlay */}
+            {isMobileMenuOpen && (
+                <div 
+                    className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                ></div>
+            )}
+
+            {/* Sidebar */}
+            <div className={`bg-slate-800 text-white fixed lg:relative lg:block z-40 transition-transform duration-300 ${
+                isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+            }`} style={{ width: '230px', height: '100vh lg:1101px' }}>
             <div className="p-6" style={{ top: '2px' }}>
                 <h1 style={{ 
                     fontFamily: 'Poppins', 
@@ -47,5 +72,6 @@ export default function SideBar(){
                 </div>
             </div>
         </div>
+        </>
     )
 }
