@@ -19,7 +19,7 @@ export default function Details(){
     const fetchPostDetails = async () => {
         try {
             setLoading(true)
-            const response = await axios.get(`${API_URL}/post/${id}/`)
+            const response = await axios.get(`/post/${id}/`)
             setPost(response.data)
             setError(null)
         } catch (err) {

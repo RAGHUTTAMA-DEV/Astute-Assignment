@@ -17,9 +17,12 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true)
     const [isAuthenticated, setIsAuthenticated] = useState(false)
     useEffect(() => {
+        // Configure axios for cross-origin requests with credentials
         axios.defaults.withCredentials = true
-        // Set default headers
         axios.defaults.headers.common['Content-Type'] = 'application/json'
+        
+        // Set base URL and other defaults
+        axios.defaults.baseURL = API_URL
     }, [])
 
     const login = async (username, password) => {
@@ -89,7 +92,8 @@ export const AuthProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        checkAuthStatus()
+        // Don't check auth status on initial load
+        setLoading(false)
     }, [])
 
     const value = {

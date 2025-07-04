@@ -28,7 +28,7 @@ export default function Comment(){
     const fetchCommentDetails = async () => {
         try {
             setLoading(true)
-            const response = await axios.get(`${API_URL}/comment/${commentId}/`)
+            const response = await axios.get(`/comment/${commentId}/`)
             setCommentDetails(response.data)
             setError(null)
         } catch (err) {
@@ -50,7 +50,7 @@ export default function Comment(){
             setLoading(true)
             setError(null)
             
-            const response = await axios.post(`${API_URL}/post/${postId}/add-comment/`, {
+            const response = await axios.post(`/post/${postId}/add-comment/`, {
                 content: comment
             })
             

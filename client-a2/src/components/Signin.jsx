@@ -18,7 +18,7 @@ export default function Signin(){
         const result = await login(username, password)
         
         if (result.success) {
-            navigate('/')
+            navigate('/post')
         } else {
             setError(result.message)
         }
