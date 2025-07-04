@@ -1,0 +1,15 @@
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+*.db
+*.log
+*.pot
+*.py[cod]
+*.so
+*.egg-info/
+db.sqlite3
+# Ignore pip modules
+venv/Lib/site-packages/ 
