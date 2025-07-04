@@ -1,0 +1,45 @@
+[build]
+  # Build command for React/Vite project
+  command = "npm run build"
+  # Publish directory (Vite's default output directory)
+  publish = "dist"
+
+# Redirects for Single Page Application (SPA) routing
+# This ensures that all routes work properly with React Router
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Basic security headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    # Cache static assets
+    cache-control = "public, max-age=31536000, immutable"
+
+# Cache control for HTML files
+[[headers]]
+  for = "*.html"
+  [headers.values]
+    cache-control = "public, max-age=0, must-revalidate"
+
+# Cache control for CSS and JS files
+[[headers]]
+  for = "*.css"
+  [headers.values]
+    cache-control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.js"
+  [headers.values]
+    cache-control = "public, max-age=31536000, immutable"
+
+# Development settings for Netlify Dev
+[dev]
+  command = "npm run dev"
+  port = 5173
+  publish = "dist" 
