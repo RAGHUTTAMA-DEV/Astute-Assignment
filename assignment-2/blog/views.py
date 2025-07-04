@@ -6,7 +6,16 @@ from .middleware import LoginRequiredMiddleware
 from django.views.decorators.http import require_http_methods
 from .models import Post, Comment, Like
 from django.core.paginator import Paginator
+from django.views.decorators.csrf import ensure_csrf_cookie
 import json
+
+def cors_preflight(request):
+    """Handle CORS preflight requests"""
+    response = JsonResponse({'status': 'ok'})
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
+    response["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Requested-With"
+    return response
 
 @csrf_exempt
 @require_http_methods(["POST"])

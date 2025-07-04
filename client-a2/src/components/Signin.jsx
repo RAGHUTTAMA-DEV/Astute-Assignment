@@ -1,6 +1,7 @@
 import { useState } from 'react' 
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { API_URL } from '../config'
 
 export default function Signin(){
     const [username, setUsername] = useState('')
@@ -10,7 +11,7 @@ export default function Signin(){
     const handleSubmit = async (e) => {
         e.preventDefault()
         console.log(username, password)
-        const response = await axios.post('http://localhost:8000/login/', {username, password})
+        const response = await axios.post(`${API_URL}/login/`, {username, password})
         console.log(response)
         if(response.status === 200){
             alert('Login successful')

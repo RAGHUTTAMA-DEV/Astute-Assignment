@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { API_URL } from '../config'
 export default function Signup(){
     const navigate = useNavigate()
     const [username, setUsername] = useState('')
@@ -10,7 +11,7 @@ export default function Signup(){
     const handleSubmit = async (e) => {
         e.preventDefault()
         console.log(username, email, password)
-        const response = await axios.post('http://localhost:8000/register/', {username, email, password})
+        const response = await axios.post(`${API_URL}/register/`, {username, email, password})
         console.log(response)
         if(response.status === 200){
             alert('Signup successful')

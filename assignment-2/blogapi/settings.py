@@ -48,6 +48,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'blogapi.cors_middleware.CORSMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -130,13 +131,9 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # CORS Settings
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://localhost:5173",
-    "https://your-frontend-domain.netlify.app",
-]
 
-CORS_ALLOWED_HEADERS = [
+# Additional CORS settings for better compatibility
+CORS_ALLOW_HEADERS = [
     'accept',
     'accept-encoding',
     'authorization',
@@ -148,7 +145,8 @@ CORS_ALLOWED_HEADERS = [
     'x-requested-with',
 ]
 
-CORS_ALLOWED_METHODS = [
+# Allow all methods
+CORS_ALLOW_METHODS = [
     'DELETE',
     'GET',
     'OPTIONS',
@@ -156,6 +154,12 @@ CORS_ALLOWED_METHODS = [
     'POST',
     'PUT',
 ]
+
+# Expose all headers
+CORS_EXPOSE_HEADERS = ['*']
+
+# Additional CORS settings
+CORS_PREFLIGHT_MAX_AGE = 86400
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

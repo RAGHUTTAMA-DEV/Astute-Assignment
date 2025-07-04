@@ -1,0 +1,1 @@
+export const API_URL = 'https://astute-assignment-2.onrender.com'
