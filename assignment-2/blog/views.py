@@ -17,6 +17,21 @@ def cors_preflight(request):
     response["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Requested-With"
     return response
 
+@require_http_methods(["GET"])
+def test_auth(request):
+    """Test endpoint to check authentication status"""
+    if request.user.is_authenticated:
+        return JsonResponse({
+            'authenticated': True,
+            'user': request.user.username,
+            'session_id': request.session.session_key
+        })
+    else:
+        return JsonResponse({
+            'authenticated': False,
+            'session_id': request.session.session_key if request.session.session_key else None
+        })
+
 @csrf_exempt
 @require_http_methods(["POST"])
 def register(request):
