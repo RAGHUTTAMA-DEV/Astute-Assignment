@@ -42,6 +42,13 @@ def user_login(request):
             return JsonResponse({'error': 'Invalid credentials.'}, status=401)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
+    
+@require_http_methods(["POST"])
+@LoginRequiredMiddleware.require_login
+@csrf_exempt
+def user_logout(request):
+    logout(request)
+    return JsonResponse({'message': 'Logout successful.'})
 
 @csrf_exempt
 @require_http_methods(["POST"])
@@ -178,3 +185,41 @@ def unlike_post(request,id):
             return JsonResponse({'error':'Like not found.'},status=404)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
+
+@csrf_exempt
+@require_http_methods(["PUT"])
+@LoginRequiredMiddleware.require_login
+def edit_comment(request, id):
+    try:
+        comment = Comment.objects.get(id=id)
+        if comment.author != request.user:
+            return JsonResponse({'error': 'Permission denied.'}, status=403)
+        data = json.loads(request.body)
+        content = data.get('content')
+        if not content:
+            return JsonResponse({'error': 'Content is required.'}, status=400)
+        comment.content = content
+        comment.save()
+        return JsonResponse({'message': 'Comment updated successfully.'})
+    except Comment.DoesNotExist:
+        return JsonResponse({'error': 'Comment not found.'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+@csrf_exempt
+@require_http_methods(["DELETE"])
+@LoginRequiredMiddleware.require_login
+def delete_comment(request, id):
+    try:
+        comment = Comment.objects.get(id=id)
+        if comment.author != request.user:
+            return JsonResponse({'error': 'Permission denied.'}, status=403)
+        comment.delete()
+        return JsonResponse({'message': 'Comment deleted successfully.'})
+    except Comment.DoesNotExist:
+        return JsonResponse({'error': 'Comment not found.'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+    
+
+    
