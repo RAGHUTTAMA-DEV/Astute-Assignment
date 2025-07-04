@@ -20,17 +20,13 @@ def cors_preflight(request):
 @require_http_methods(["GET"])
 def test_auth(request):
     """Test endpoint to check authentication status"""
-    if request.user.is_authenticated:
-        return JsonResponse({
-            'authenticated': True,
-            'user': request.user.username,
-            'session_id': request.session.session_key
-        })
-    else:
-        return JsonResponse({
-            'authenticated': False,
-            'session_id': request.session.session_key if request.session.session_key else None
-        })
+    return JsonResponse({
+        'authenticated': request.user.is_authenticated,
+        'user': request.user.username if request.user.is_authenticated else None,
+        'session_id': request.session.session_key,
+        'cookies': dict(request.COOKIES),
+        'headers': dict(request.headers)
+    })
 
 @csrf_exempt
 @require_http_methods(["POST"])
@@ -115,7 +111,6 @@ def create_post(request):
         return JsonResponse({'error': str(e)}, status=500)
 
 @require_http_methods(["GET"])
-@LoginRequiredMiddleware.require_login
 @csrf_exempt
 def list_posts(request):
     page = int(request.GET.get('page', 1))

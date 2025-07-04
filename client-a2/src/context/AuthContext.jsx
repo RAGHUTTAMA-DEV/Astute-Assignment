@@ -75,25 +75,33 @@ export const AuthProvider = ({ children }) => {
 
     const checkAuthStatus = async () => {
         try {
-            // Get user info to check if authenticated
-            const response = await axios.get(`${API_URL}/user-info/`)
-            if (response.status === 200) {
-                setIsAuthenticated(true)
-                setUser(response.data)
-            }
-        } catch (error) {
-            if (error.response?.status === 401) {
+            // Test auth status first
+            const testResponse = await axios.get(`${API_URL}/test-auth/`)
+            console.log('Auth test:', testResponse.data)
+            
+            if (testResponse.data.authenticated) {
+                // If authenticated, get user info
+                const userResponse = await axios.get(`${API_URL}/user-info/`)
+                if (userResponse.status === 200) {
+                    setIsAuthenticated(true)
+                    setUser(userResponse.data)
+                }
+            } else {
                 setIsAuthenticated(false)
                 setUser(null)
             }
+        } catch (error) {
+            console.error('Auth check error:', error)
+            setIsAuthenticated(false)
+            setUser(null)
         } finally {
             setLoading(false)
         }
     }
 
     useEffect(() => {
-        // Don't check auth status on initial load
-        setLoading(false)
+        // Check auth status on app load
+        checkAuthStatus()
     }, [])
 
     const value = {
