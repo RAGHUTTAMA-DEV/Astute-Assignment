@@ -1,7 +1,7 @@
 [build]
-  base = "client-a1"
+  base = "./client-a1"
   command = "npm run build"
-  publish = "client-a1/dist"
+  publish = "dist"
 
 [build.environment]
   NODE_VERSION = "18"
