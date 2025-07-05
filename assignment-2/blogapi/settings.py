@@ -45,9 +45,9 @@ INSTALLED_APPS = [
 
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -129,6 +129,8 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # CORS Settings
 CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = False  # Only allow specific origins
+CORS_ORIGIN_ALLOW_ALL = False   # Only allow specific origins
 
 # Allow specific origins for development and production
 CORS_ALLOWED_ORIGINS = [
@@ -136,7 +138,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "http://127.0.0.1:3000",
-    "https://client-a2.netlify.app"
+    "https://client-a2.netlify.app",
+    "https://client-a2.netlify.app/"
 ]
 
 # Allow all headers
@@ -164,7 +167,8 @@ CORS_ALLOW_METHODS = [
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
     "http://localhost:3000",
-    "https://client-a2.netlify.app"
+    "https://client-a2.netlify.app",
+    "https://client-a2.netlify.app/"
 ]
 
 # Expose all headers
@@ -192,7 +196,8 @@ CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:5173",
     "http://127.0.0.1:3000",
     "https://astute-assignment-2.onrender.com",
-    "https://client-a2.netlify.app"
+    "https://client-a2.netlify.app",
+    "https://client-a2.netlify.app/"
 ]
 
 
