@@ -5,6 +5,10 @@ import { API_URL } from '../config'
 axios.defaults.withCredentials = true
 axios.defaults.headers.common['Content-Type'] = 'application/json'
 
+// Ensure cookies are sent with requests
+axios.defaults.xsrfCookieName = 'csrftoken'
+axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+
 // Set base URL based on environment
 if (import.meta.env.DEV) {
   // In development, we use a proxy, so we don't set baseURL

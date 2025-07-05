@@ -20,6 +20,12 @@ def cors_preflight(request):
 @require_http_methods(["GET"])
 def test_auth(request):
     """Test endpoint to check authentication status"""
+    # Add debug logging
+    print(f"DEBUG: test_auth called. User authenticated: {request.user.is_authenticated}")
+    print(f"DEBUG: User: {request.user}")
+    print(f"DEBUG: Session key: {request.session.session_key}")
+    print(f"DEBUG: Cookies: {dict(request.COOKIES)}")
+    
     return JsonResponse({
         'authenticated': request.user.is_authenticated,
         'user': request.user.username if request.user.is_authenticated else None,

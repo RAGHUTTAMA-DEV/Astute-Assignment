@@ -38,6 +38,8 @@ export const AuthProvider = ({ children }) => {
             if (response.status === 200) {
                 setUser(response.data.user)
                 setIsAuthenticated(true)
+                // Immediately check auth status to ensure session is established
+                await checkAuthStatus()
                 return { success: true, message: 'Login successful' }
             }
         } catch (error) {
@@ -88,6 +90,19 @@ export const AuthProvider = ({ children }) => {
                 if (userResponse.status === 200) {
                     setIsAuthenticated(true)
                     setUser(userResponse.data)
+                } else {
+                    // If user-info fails, try to get user from test-auth response
+                    if (testResponse.data.user) {
+                        setIsAuthenticated(true)
+                        setUser({
+                            username: testResponse.data.user,
+                            id: null,
+                            email: null
+                        })
+                    } else {
+                        setIsAuthenticated(false)
+                        setUser(null)
+                    }
                 }
             } else {
                 setIsAuthenticated(false)
