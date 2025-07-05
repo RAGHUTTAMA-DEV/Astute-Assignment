@@ -18,6 +18,7 @@ def cors_preflight(request):
     return response
 
 @require_http_methods(["GET"])
+@ensure_csrf_cookie
 def test_auth(request):
     """Test endpoint to check authentication status"""
     return JsonResponse({
