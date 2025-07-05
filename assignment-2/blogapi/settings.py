@@ -136,8 +136,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "http://127.0.0.1:3000",
-    "https://client-a2.netlify.app",
-    "https://client-a2.netlify.app/"
+    "https://client-a2.netlify.app"
 ]
 
 # Allow all headers
@@ -165,8 +164,7 @@ CORS_ALLOW_METHODS = [
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
     "http://localhost:3000",
-    "https://client-a2.netlify.app",
-    "https://client-a2.netlify.app/"
+    "https://client-a2.netlify.app"
 ]
 
 # Expose all headers
@@ -193,8 +191,7 @@ CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:5173",
     "http://127.0.0.1:3000",
     "https://astute-assignment-2.onrender.com",
-    "https://client-a2.netlify.app",
-    "https://client-a2.netlify.app/"
+    "https://client-a2.netlify.app"
 ]
 
 
