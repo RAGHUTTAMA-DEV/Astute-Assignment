@@ -5,10 +5,14 @@ import { API_URL } from '../config'
 axios.defaults.withCredentials = true
 axios.defaults.headers.common['Content-Type'] = 'application/json'
 
-// In development, we use a proxy, so we don't set baseURL
-// In production, we set the baseURL to the actual API
-if (!import.meta.env.DEV) {
-  axios.defaults.baseURL = API_URL
+// Set base URL based on environment
+if (import.meta.env.DEV) {
+  // In development, we use a proxy, so we don't set baseURL
+  console.log('Development mode: Using proxy for API requests')
+} else {
+  // In production, set the baseURL to the actual API
+  axios.defaults.baseURL = 'https://astute-assignment-2.onrender.com'
+  console.log('Production mode: Using direct API URL')
 }
 
 // Function to get CSRF token from cookies
@@ -37,7 +41,8 @@ export const ensureCSRFToken = async () => {
     // If no cookie, try to get it by making a GET request to trigger cookie setting
     try {
       console.log('No CSRF token in cookie, making GET request to trigger cookie...')
-      await axios.get('/api/list-posts/')
+      const endpoint = import.meta.env.DEV ? '/api/list-posts/' : '/list-posts/'
+      await axios.get(endpoint)
       csrfToken = getCSRFTokenFromCookie()
     } catch (error) {
       console.error('Error getting CSRF token:', error)
