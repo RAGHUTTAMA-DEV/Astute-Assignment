@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext'
 
 export default function ProtectedRoute({ children }) {
     try {
-        const { isAuthenticated, loading } = useAuth()
+        const { isAuthenticated, loading, user } = useAuth()
 
         if (loading) {
             return (
@@ -16,8 +16,8 @@ export default function ProtectedRoute({ children }) {
             )
         }
 
-        // If not authenticated, redirect to signin
-        if (!isAuthenticated) {
+        // If not authenticated and no user data, redirect to signin
+        if (!isAuthenticated && !user) {
             return <Navigate to="/signin" replace />
         }
 

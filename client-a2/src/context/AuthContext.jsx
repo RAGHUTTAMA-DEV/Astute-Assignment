@@ -38,6 +38,7 @@ export const AuthProvider = ({ children }) => {
             if (response.status === 200) {
                 setUser(response.data.user)
                 setIsAuthenticated(true)
+                // Don't call checkAuthStatus here as it might override the login state
                 return { success: true, message: 'Login successful' }
             }
         } catch (error) {
