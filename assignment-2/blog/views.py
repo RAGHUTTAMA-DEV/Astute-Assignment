@@ -88,8 +88,8 @@ def user_login(request):
                 request.session.session_key,
                 max_age=1209600,
                 httponly=True,
-                samesite='Lax',
-                secure=False,  # Set to True in production with HTTPS
+                samesite='None',  # Required for cross-origin cookies
+                secure=True,  # Required for HTTPS in production
                 domain=None,   # Allow cross-subdomain
                 path='/'
             )

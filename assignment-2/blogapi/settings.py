@@ -176,16 +176,16 @@ CORS_EXPOSE_HEADERS = ['*']
 CORS_PREFLIGHT_MAX_AGE = 86400
 
 # Session Configuration
-SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
+SESSION_COOKIE_SECURE = True  # Required for HTTPS in production
 SESSION_COOKIE_HTTPONLY = True
-SESSION_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_SAMESITE = 'None'  # Required for cross-origin cookies
 SESSION_COOKIE_AGE = 1209600  # 2 weeks in seconds
 SESSION_COOKIE_DOMAIN = None  # Allow cross-subdomain cookies
 
 # CSRF Configuration
-CSRF_COOKIE_SECURE = False  # Set to True in production with HTTPS
+CSRF_COOKIE_SECURE = True  # Required for HTTPS in production
 CSRF_COOKIE_HTTPONLY = False  # Allow JavaScript access for CSRF tokens
-CSRF_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_SAMESITE = 'None'  # Required for cross-origin cookies
 
 # CSRF Trusted Origins
 CSRF_TRUSTED_ORIGINS = [
