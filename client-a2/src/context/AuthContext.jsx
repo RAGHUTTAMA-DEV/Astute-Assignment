@@ -38,7 +38,12 @@ export const AuthProvider = ({ children }) => {
             if (response.status === 200) {
                 setUser(response.data.user)
                 setIsAuthenticated(true)
-                // Don't call checkAuthStatus here as it might override the login state
+                
+                // Wait a moment for cookies to be set, then verify auth
+                setTimeout(async () => {
+                    await checkAuthStatus()
+                }, 500)
+                
                 return { success: true, message: 'Login successful' }
             }
         } catch (error) {

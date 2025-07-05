@@ -178,6 +178,7 @@ SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
 SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SAMESITE = 'Lax'
 SESSION_COOKIE_AGE = 1209600  # 2 weeks in seconds
+SESSION_COOKIE_DOMAIN = None  # Allow cross-subdomain cookies
 
 # CSRF Configuration
 CSRF_COOKIE_SECURE = False  # Set to True in production with HTTPS
