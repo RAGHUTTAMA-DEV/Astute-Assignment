@@ -75,7 +75,11 @@ def user_login(request):
             login(request, user)
             # Set session expiry
             request.session.set_expiry(1209600)  # 2 weeks
-            return JsonResponse({
+            # Force session save
+            request.session.save()
+            
+            # Create response with session cookie
+            response = JsonResponse({
                 'message': 'Login successful.',
                 'user': {
                     'username': user.username,
@@ -83,6 +87,18 @@ def user_login(request):
                     'id': user.id
                 }
             })
+            
+            # Set session cookie explicitly
+            response.set_cookie(
+                'sessionid',
+                request.session.session_key,
+                max_age=1209600,
+                httponly=True,
+                samesite='Lax',
+                secure=False  # Set to True in production with HTTPS
+            )
+            
+            return response
         else:
             return JsonResponse({'error': 'Invalid credentials.'}, status=401)
     except Exception as e:
