@@ -20,12 +20,6 @@ def cors_preflight(request):
 @require_http_methods(["GET"])
 def test_auth(request):
     """Test endpoint to check authentication status"""
-    # Add debug logging
-    print(f"DEBUG: test_auth called. User authenticated: {request.user.is_authenticated}")
-    print(f"DEBUG: User: {request.user}")
-    print(f"DEBUG: Session key: {request.session.session_key}")
-    print(f"DEBUG: Cookies: {dict(request.COOKIES)}")
-    
     return JsonResponse({
         'authenticated': request.user.is_authenticated,
         'user': request.user.username if request.user.is_authenticated else None,
@@ -75,11 +69,7 @@ def user_login(request):
             login(request, user)
             # Set session expiry
             request.session.set_expiry(1209600)  # 2 weeks
-            # Force session save
-            request.session.save()
-            
-            # Create response with session cookie
-            response = JsonResponse({
+            return JsonResponse({
                 'message': 'Login successful.',
                 'user': {
                     'username': user.username,
@@ -87,18 +77,6 @@ def user_login(request):
                     'id': user.id
                 }
             })
-            
-            # Set session cookie explicitly
-            response.set_cookie(
-                'sessionid',
-                request.session.session_key,
-                max_age=1209600,
-                httponly=True,
-                samesite='Lax',
-                secure=False  # Set to True in production with HTTPS
-            )
-            
-            return response
         else:
             return JsonResponse({'error': 'Invalid credentials.'}, status=401)
     except Exception as e:

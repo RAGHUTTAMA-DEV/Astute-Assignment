@@ -36,15 +36,8 @@ export const AuthProvider = ({ children }) => {
             })
             
             if (response.status === 200) {
-                // Set user data from login response
                 setUser(response.data.user)
                 setIsAuthenticated(true)
-                
-                // Wait a moment for cookies to be set, then verify auth
-                setTimeout(async () => {
-                    await checkAuthStatus()
-                }, 100)
-                
                 return { success: true, message: 'Login successful' }
             }
         } catch (error) {
@@ -85,9 +78,6 @@ export const AuthProvider = ({ children }) => {
 
     const checkAuthStatus = async () => {
         try {
-            // Log current cookies for debugging
-            console.log('Current cookies:', document.cookie)
-            
             // Test auth status first
             const testResponse = await axios.get(`${API_URL}/test-auth/`)
             console.log('Auth test:', testResponse.data)
@@ -98,22 +88,8 @@ export const AuthProvider = ({ children }) => {
                 if (userResponse.status === 200) {
                     setIsAuthenticated(true)
                     setUser(userResponse.data)
-                } else {
-                    // If user-info fails, try to get user from test-auth response
-                    if (testResponse.data.user) {
-                        setIsAuthenticated(true)
-                        setUser({
-                            username: testResponse.data.user,
-                            id: null,
-                            email: null
-                        })
-                    } else {
-                        setIsAuthenticated(false)
-                        setUser(null)
-                    }
                 }
             } else {
-                console.log('User not authenticated, cookies:', testResponse.data.cookies)
                 setIsAuthenticated(false)
                 setUser(null)
             }
