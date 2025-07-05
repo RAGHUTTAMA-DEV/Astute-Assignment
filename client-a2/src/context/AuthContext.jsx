@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import axios from 'axios'
+import axios from '../utils/api'
 import { API_URL } from '../config'
 
 const AuthContext = createContext()
@@ -16,13 +16,16 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
     const [isAuthenticated, setIsAuthenticated] = useState(false)
+    
     useEffect(() => {
         // Configure axios for cross-origin requests with credentials
         axios.defaults.withCredentials = true
         axios.defaults.headers.common['Content-Type'] = 'application/json'
         
-        // Set base URL and other defaults
-        axios.defaults.baseURL = API_URL
+        // Set base URL only in production
+        if (!import.meta.env.DEV) {
+            axios.defaults.baseURL = API_URL
+        }
     }, [])
 
     const login = async (username, password) => {

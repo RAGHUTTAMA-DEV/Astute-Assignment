@@ -8,6 +8,7 @@ import Card from './components/Card'
 import Button from './components/button'
 import InputCaseDetails from './components/InputCaseDetails'
 import CaseDetail from './components/CaseDetail'
+import './utils/api' // Initialize API configuration with cookies
 function App() {
   const [count, setCount] = useState(0)
 

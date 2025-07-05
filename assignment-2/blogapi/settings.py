@@ -184,6 +184,15 @@ CSRF_COOKIE_SECURE = False  # Set to True in production with HTTPS
 CSRF_COOKIE_HTTPONLY = False  # Allow JavaScript access for CSRF tokens
 CSRF_COOKIE_SAMESITE = 'Lax'
 
+# CSRF Trusted Origins
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5173",
+    "http://localhost:3000",
+    "http://127.0.0.1:5173",
+    "http://127.0.0.1:3000",
+    "https://astute-assignment-2.onrender.com",
+]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

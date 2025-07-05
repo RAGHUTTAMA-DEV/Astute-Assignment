@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import axios from '../utils/api'
 import { API_URL } from '../config'
 import { useParams, useNavigate } from 'react-router-dom'
 
@@ -112,7 +112,7 @@ export default function Details(){
                         <span>{new Date(post.created_at).toLocaleDateString()}</span>
                     </div>
                     <p className="text-gray-700 leading-relaxed mb-4">{post.content}</p>
-                    {post.link && (
+                    {post.link && post.link.trim() && (
                         <a 
                             href={post.link} 
                             target="_blank" 

@@ -11,6 +11,7 @@ import Post from './components/post'
 import Details from './components/details'
 import Comment from './components/comment'
 import CreatePost from './components/CreatePost'
+import './utils/api' // Initialize API configuration with cookies
 
 function App() {
   return (

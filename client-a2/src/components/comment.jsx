@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import axios, { ensureCSRFToken } from '../utils/api'
 import { API_URL } from '../config'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
 
@@ -28,7 +28,7 @@ export default function Comment(){
     const fetchCommentDetails = async () => {
         try {
             setLoading(true)
-            const response = await axios.get(`/comment/${commentId}/`)
+            const response = await axios.get(`/api/comment/${commentId}/`)
             setCommentDetails(response.data)
             setError(null)
         } catch (err) {
@@ -50,10 +50,19 @@ export default function Comment(){
             setLoading(true)
             setError(null)
             
-            const response = await axios.post(`/post/${postId}/add-comment/`, {
+            // Ensure CSRF token is available
+            await ensureCSRFToken()
+            
+            console.log('Adding comment to post:', postId)
+            console.log('Comment content:', comment)
+            console.log('Request URL:', `/api/post/${postId}/add-comment/`)
+            console.log('CSRF token:', axios.defaults.headers.common['X-CSRFToken'])
+            
+            const response = await axios.post(`/api/post/${postId}/add-comment/`, {
                 content: comment
             })
             
+            console.log('Comment response:', response)
             setSuccess(true)
             setComment('')
             
@@ -64,7 +73,17 @@ export default function Comment(){
             
         } catch (err) {
             console.error('Error adding comment:', err)
-            setError(err.response?.data?.error || 'Failed to add comment')
+            console.error('Error response:', err.response)
+            console.error('Error status:', err.response?.status)
+            console.error('Error data:', err.response?.data)
+            
+            if (err.response?.status === 403) {
+                setError('CSRF verification failed. Please refresh the page and try again.')
+                // Try to get a new CSRF token
+                await ensureCSRFToken()
+            } else {
+                setError(err.response?.data?.error || 'Failed to add comment')
+            }
         } finally {
             setLoading(false)
         }

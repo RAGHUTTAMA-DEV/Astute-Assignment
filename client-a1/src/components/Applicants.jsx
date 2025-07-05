@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import axios from '../utils/api'
 import { API_URL } from '../config'
 import { Users, Mail, Calendar, FileText, X } from 'lucide-react'
 

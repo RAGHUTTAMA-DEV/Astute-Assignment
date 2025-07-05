@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import axios, { ensureCSRFToken } from '../utils/api'
 import { API_URL } from '../config'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
@@ -41,6 +41,44 @@ export default function Post(){
 
     const handleAddComment = (postId) => {
         navigate(`/post/${postId}/add-comment`)
+    }
+
+    const handleLike = async (postId) => {
+        try {
+            await ensureCSRFToken()
+            const response = await axios.post(`/api/post/${postId}/like/`)
+            console.log('Like response:', response.data)
+            
+            // Update the like count locally
+            setPosts(prevPosts => 
+                prevPosts.map(post => 
+                    post.id === postId 
+                        ? { ...post, likes_count: (post.likes_count || 0) + 1 }
+                        : post
+                )
+            )
+        } catch (error) {
+            console.error('Error liking post:', error)
+        }
+    }
+
+    const handleUnlike = async (postId) => {
+        try {
+            await ensureCSRFToken()
+            const response = await axios.post(`/api/post/${postId}/unlike/`)
+            console.log('Unlike response:', response.data)
+            
+            // Update the like count locally
+            setPosts(prevPosts => 
+                prevPosts.map(post => 
+                    post.id === postId 
+                        ? { ...post, likes_count: Math.max((post.likes_count || 0) - 1, 0) }
+                        : post
+                )
+            )
+        } catch (error) {
+            console.error('Error unliking post:', error)
+        }
     }
 
     const handleLogout = async () => {
@@ -117,6 +155,28 @@ export default function Post(){
                                 <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
                                     <span>By: {post.author}</span>
                                     <span>{new Date(post.created_at).toLocaleDateString()}</span>
+                                </div>
+
+                                {/* Like Count */}
+                                <div className="flex items-center justify-between mb-4">
+                                    <span className="text-sm text-gray-600">
+                                        ❤️ {post.likes_count || 0} likes
+                                    </span>
+                                </div>
+
+                                <div className="flex space-x-2 mb-4">
+                                    <button 
+                                        onClick={() => handleLike(post.id)}
+                                        className="flex-1 bg-red-500 text-white px-3 py-2 rounded-md text-sm hover:bg-red-600 transition-colors"
+                                    >
+                                        ❤️ Like
+                                    </button>
+                                    <button 
+                                        onClick={() => handleUnlike(post.id)}
+                                        className="flex-1 bg-gray-500 text-white px-3 py-2 rounded-md text-sm hover:bg-gray-600 transition-colors"
+                                    >
+                                        💔 Unlike
+                                    </button>
                                 </div>
 
                                 <div className="flex space-x-3">

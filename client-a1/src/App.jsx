@@ -5,6 +5,7 @@ import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Company from './components/Company'
 import Jobs from './components/Jobs'
+import './utils/api' // Initialize API configuration with cookies
 
 function App() {
   const [count, setCount] = useState(0)
