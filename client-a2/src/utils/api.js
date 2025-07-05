@@ -9,6 +9,35 @@ axios.defaults.headers.common['Content-Type'] = 'application/json'
 axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
+// Add request interceptor to log cookies being sent
+axios.interceptors.request.use(
+  (config) => {
+    console.log('Request cookies:', document.cookie)
+    console.log('Request config:', {
+      url: config.url,
+      withCredentials: config.withCredentials,
+      headers: config.headers
+    })
+    return config
+  },
+  (error) => {
+    return Promise.reject(error)
+  }
+)
+
+// Add response interceptor to log cookies received
+axios.interceptors.response.use(
+  (response) => {
+    console.log('Response cookies:', document.cookie)
+    console.log('Response headers:', response.headers)
+    return response
+  },
+  (error) => {
+    console.log('Response error cookies:', document.cookie)
+    return Promise.reject(error)
+  }
+)
+
 // Set base URL based on environment
 if (import.meta.env.DEV) {
   // In development, we use a proxy, so we don't set baseURL
