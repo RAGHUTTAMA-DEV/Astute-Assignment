@@ -1,29 +1,50 @@
-# Blog + Comment System API (Assignment 2)
+# Blog Platform - Assignment 2
+
+A blog platform with user authentication, post creation, comments, and likes.
+
+## Features
+
+- User registration and authentication
+- Create, read, update posts
+- Add comments to posts
+- Like/unlike posts
+- User profiles
+
+## Tech Stack
+
+- **Backend**: Django REST API
+- **Frontend**: React with Vite
+- **Database**:SQLite (development)
+- **Deployment**: Render.com (backend), Netlify (frontend)
+
+## Live Demo
+
+- Frontend: https://client-a2.netlify.app
+- Backend: https://astute-assignment-2.onrender.com
 
 ## Setup
 
-1. Clone the repo and navigate to `assignment-2`:
-   ```sh
-   cd assignment-2
-   python -m venv venv
-   venv\Scripts\activate  # On Windows
-   pip install django
-   python manage.py migrate
-   python manage.py runserver
-   ```
+### Backend
+1. Create virtual environment: `python -m venv venv`
+2. Activate: `source venv/bin/activate` (Linux/Mac) or `venv\Scripts\activate` (Windows)
+3. Install dependencies: `pip install -r requirements.txt`
+4. Run migrations: `python manage.py migrate`
+5. Start server: `python manage.py runserver`
 
-2. Access the API at `http://127.0.0.1:8000/`
+### Frontend
+1. Install dependencies: `npm install`
+2. Start development server: `npm run dev`
 
 ## API Endpoints
 
-- `POST /register/` — Register a user
-- `POST /login/` — Login
-- `POST /create-post/` — Create a post (auth required)
-- `GET /list-posts/` — List posts (with pagination)
-- `GET /post/<id>/` — Post detail (with comments)
-- `POST /post/<id>/add-comment/` — Add comment (auth required)
+- `POST /api/register/` - User registration
+- `POST /api/login/` - User login
+- `GET /api/list-posts/` - List posts
+- `POST /api/create-post/` - Create post
+- `POST /api/post/{id}/add-comment/` - Add comment
+- `POST /api/post/{id}/like/` - Like post
+- `POST /api/post/{id}/unlike/` - Unlike post
 
-## Notes
-- All endpoints return JSON.
-- No DRF used, only function-based views and JsonResponse.
-- See code for request/response examples. 
+## Author
+
+Raghuttama Dev 
