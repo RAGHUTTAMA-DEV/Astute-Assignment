@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import axios from '../utils/api'
+import axios, { ensureCSRFToken } from '../utils/api'
 import { API_URL } from '../config'
 
 const AuthContext = createContext()
@@ -38,6 +38,9 @@ export const AuthProvider = ({ children }) => {
             if (response.status === 200) {
                 setUser(response.data.user)
                 setIsAuthenticated(true)
+                
+                // Ensure CSRF token is set after login
+                await ensureCSRFToken()
                 
                 // Wait a moment for cookies to be set, then verify auth
                 setTimeout(async () => {

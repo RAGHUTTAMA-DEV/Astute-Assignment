@@ -46,7 +46,7 @@ export default function Post(){
     const handleLike = async (postId) => {
         try {
             await ensureCSRFToken()
-            const response = await axios.post(`/api/post/${postId}/like/`)
+            const response = await axios.post(`${API_URL}/post/${postId}/like/`)
             console.log('Like response:', response.data)
             
             // Update the like count locally
@@ -65,7 +65,7 @@ export default function Post(){
     const handleUnlike = async (postId) => {
         try {
             await ensureCSRFToken()
-            const response = await axios.post(`/api/post/${postId}/unlike/`)
+            const response = await axios.post(`${API_URL}/post/${postId}/unlike/`)
             console.log('Unlike response:', response.data)
             
             // Update the like count locally

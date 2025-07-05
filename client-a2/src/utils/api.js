@@ -74,7 +74,7 @@ export const ensureCSRFToken = async () => {
     // If no cookie, try to get it by making a GET request to trigger cookie setting
     try {
       console.log('No CSRF token in cookie, making GET request to trigger cookie...')
-      const endpoint = import.meta.env.DEV ? '/api/list-posts/' : '/list-posts/'
+      const endpoint = import.meta.env.DEV ? '/api/list-posts/' : '/api/list-posts/'
       await axios.get(endpoint)
       csrfToken = getCSRFTokenFromCookie()
     } catch (error) {

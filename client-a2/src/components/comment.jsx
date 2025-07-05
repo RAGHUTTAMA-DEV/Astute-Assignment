@@ -28,7 +28,7 @@ export default function Comment(){
     const fetchCommentDetails = async () => {
         try {
             setLoading(true)
-            const response = await axios.get(`/api/comment/${commentId}/`)
+            const response = await axios.get(`${API_URL}/comment/${commentId}/`)
             setCommentDetails(response.data)
             setError(null)
         } catch (err) {
@@ -55,10 +55,10 @@ export default function Comment(){
             
             console.log('Adding comment to post:', postId)
             console.log('Comment content:', comment)
-            console.log('Request URL:', `/api/post/${postId}/add-comment/`)
+            console.log('Request URL:', `${API_URL}/post/${postId}/add-comment/`)
             console.log('CSRF token:', axios.defaults.headers.common['X-CSRFToken'])
             
-            const response = await axios.post(`/api/post/${postId}/add-comment/`, {
+            const response = await axios.post(`${API_URL}/post/${postId}/add-comment/`, {
                 content: comment
             })
             
